@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record id = 'prospects_action' model = 'ir.actions.act_window'>
+        <field name = 'name'>Prospects</field>
+        <field name = 'res_model'>prospect</field>
+        <field name = 'help' type = 'html'>
+            <p class = 'o_view_nocontent_smiling_face'>Create Prospects</p>
+            <p>You can create new prospects from here</p>
+        </field>
+    </record>
+
+     <record id="prospect_tree_view" model="ir.ui.view">
+        <field name="name">prospect.tree</field>
+        <field name="model">prospect</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="user_id" widget = 'many2one_avatar'/>
+                <field name="lead_score"/>
+                <field name="phone"/>
+            </list>
+        </field>
+    </record>
+
+    <record id = 'prospect_form_view' model="ir.ui.view">
+        <field name="name">prospect.form</field>
+        <field name="model">prospect</field>
+        <field name="arch" type="xml">
+            <form>
+               <sheet>
+                   <group string = 'Primary info'>
+                       <div class = 'oe_title'>
+                            <h1>
+                                <label for="name"/>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                       <field name="user_id" widget = 'many2one_avatar' options="{'no_create': True}" />
+                       <field name="status"/>
+                       <field name="lead_score"/>
+
+                   </group>
+                   <notebook>
+                       <page string = 'Additional Info'>
+                           <field name="phone"/>
+                           <field name="description"/>
+                       </page>
+                   </notebook>
+               </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+
+    </data>
+</odoo>

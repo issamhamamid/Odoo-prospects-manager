@@ -22,6 +22,7 @@
         'security/ir.model.access.csv',
         'views/region_view.xml',
         'views/team_view.xml',
+        'views/prospect_view.xml',
         'views/base_menus.xml',
 
     ],

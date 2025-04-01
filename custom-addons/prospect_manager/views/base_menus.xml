@@ -19,6 +19,13 @@
         action = 'sales_team.crm_team_action_config'
     />
 
+    <menuitem
+        id='prospects_menu'
+        name='Prospects'
+        parent='prospect_manager_root_menu'
+        action = 'prospects_action'
+    />
+
 
     </data>
 </odoo>

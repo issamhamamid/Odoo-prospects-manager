@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_prospect_manager_region,prospect_manager.region,model_prospect_region,,1,1,1,1
+access_prospect_manager_prospect,prospect_manager.prospct,model_prospect,,1,1,1,1

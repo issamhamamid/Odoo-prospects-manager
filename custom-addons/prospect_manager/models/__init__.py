@@ -2,3 +2,4 @@
 
 from . import Region
 from . import Team
+from . import prospect
