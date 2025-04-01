@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <!--    module base menus    -->
+    <menuitem id="prospect_manager_root_menu" name="Prospect Manager" sequence="10"/>
+     <menuitem
+        id='regions_menu'
+        name='Regions'
+        parent='prospect_manager_root_menu'
+        action = 'prospect_manager.regions_action'
+   />
+
+    </data>
+</odoo>

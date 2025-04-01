@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <!--   list view for region model     -->
+    <record id="region_tree_view" model="ir.ui.view">
+        <field name="name">region.tree</field>
+        <field name="model">prospect.region</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="commercial_lead_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!--    form view for region model    -->
+    <record id = 'region_form_view' model = 'ir.ui.view'>
+        <field name = 'name'>region.form</field>
+        <field name = 'model'>prospect.region</field>
+        <field name = 'arch' type = 'xml'>
+            <form>
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name = 'name'/>
+                        <field name = 'commercial_lead_id'/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--    window action for region model    -->
+    <record id="regions_action" model = 'ir.actions.act_window'>
+        <field name = 'name'>Regions</field>
+        <field name = 'res_model'>prospect.region</field>
+        <field name = 'help' type = 'html'>
+            <p class = 'o_view_nocontent_smiling_face'>Create Regions</p>
+            <p>You can create new regions from here</p>
+        </field>
+    </record>
+
+    </data>
+</odoo>
