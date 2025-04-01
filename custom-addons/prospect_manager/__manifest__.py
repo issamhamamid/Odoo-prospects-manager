@@ -21,7 +21,9 @@
     'data': [
         'security/ir.model.access.csv',
         'views/region_view.xml',
-        'views/base_menus.xml'
+        'views/team_view.xml',
+        'views/base_menus.xml',
+
     ],
     # only loaded in demonstration mode
     'demo': [

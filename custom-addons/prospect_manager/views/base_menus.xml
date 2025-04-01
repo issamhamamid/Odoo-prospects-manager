@@ -4,12 +4,21 @@
 
     <!--    module base menus    -->
     <menuitem id="prospect_manager_root_menu" name="Prospect Manager" sequence="10"/>
-     <menuitem
+
+    <menuitem
         id='regions_menu'
         name='Regions'
         parent='prospect_manager_root_menu'
         action = 'prospect_manager.regions_action'
-   />
+    />
+
+    <menuitem
+        id='teams_menu'
+        name='Commercial Teams'
+        parent='prospect_manager_root_menu'
+        action = 'sales_team.crm_team_action_config'
+    />
+
 
     </data>
 </odoo>
