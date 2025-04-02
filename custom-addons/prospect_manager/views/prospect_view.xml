@@ -49,7 +49,11 @@
                    <notebook>
                        <page string = 'User and Customer'>
                            <group>
-                               <field name="user_id" widget = 'many2one_avatar' options="{'no_create': True}" readonly = "is_team_leader == False" />
+                               <field name="user_id" widget = 'many2one_avatar' options="{'no_create': True}" readonly = "is_team_leader == False"
+                                    domain = 'user_id_domain'
+                               />
+
+
                                <field name="customer_id" widget = 'many2one_avatar' options="{'no_create': True}" />
                            </group>
                        </page>

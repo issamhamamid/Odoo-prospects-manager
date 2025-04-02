@@ -1,9 +1,6 @@
-from email.policy import default
-
-from odoo.api import readonly
 
 from odoo import fields, models, api
-
+import json
 
 class Prospect(models.Model):
     _name = 'prospect'
@@ -18,12 +15,13 @@ class Prospect(models.Model):
     description = fields.Text(string='Description' , size = 30)
     phone = fields.Char(string='Phone' , size = 10)
     is_team_leader = fields.Boolean(string='Is Team Leader', compute='_check_team_leader')
-
+    user_id_domain = fields.Binary(string='User ID Domain', compute='compute_user_id_domain')
 
 
 
     @api.depends('user_id')
     def _check_team_leader(self):
+
         """
                  Determines if the user is a team leader.
                  This method checks if the 'user_id' is associated with any CRM team.
@@ -31,6 +29,7 @@ class Prospect(models.Model):
                  'is_team_leader' will be used to determine weather 'user_id' is going to be readonly or not.
                  """
         for rec in self:
+            print('ff')
             team = self.env['crm.team'].search([('user_id', '=', self.env.user.id)], limit=1)
             if team:
                 rec.is_team_leader = True
@@ -39,7 +38,14 @@ class Prospect(models.Model):
 
 
 
-    @api.onchange('user_id')
-    def _set_users_domain(self):
 
+    @api.depends('user_id')
+    def compute_user_id_domain(self):
+        for prospect in self:
+            team = self.env['crm.team'].search([('user_id', '=', self.env.user.id)], limit=1)
+            if team :
+                members = team.member_ids.ids
+                prospect.user_id_domain = [('id', 'in', members)]
+            else:
+                prospect.user_id_domain = []
 
