@@ -1,6 +1,6 @@
 
 from odoo import fields, models, api
-import json
+from odoo.exceptions import UserError
 
 class Prospect(models.Model):
     _name = 'prospect'
@@ -10,13 +10,14 @@ class Prospect(models.Model):
     user_id = fields.Many2one('res.users', string='Assigned To', required = True , default = lambda self : self.env.user.id)
     status = fields.Selection([('contact_prospect', 'Contact prospect'), ('offer_sent', 'Offer sent'), ('won', 'Won') ,('lost','Lost')], string='Current Status', required=True
                               , default = 'contact_prospect' , readonly = True)
-    customer_id = fields.Many2one('res.partner', string='Potential customer', required = True)
     lead_score = fields.Selection([(str(i), str(i)) for i in range(1, 6)], string='Probability of conversion', required=True)
     description = fields.Text(string='Description' , size = 30)
     phone = fields.Char(string='Phone' , size = 10)
     is_team_leader = fields.Boolean(string='Is Team Leader', compute='_check_team_leader')
     user_id_domain = fields.Binary(string='User ID Domain', compute='compute_user_id_domain')
-
+    offer_sent_date = fields.Date(string='Offer Sent Date', readonly=True)
+    offer_won_date = fields.Date(string='Offer Won Date', readonly=True)
+    offer_lost_date = fields.Date(string='Offer Lost Date', readonly=True)
 
 
     @api.depends('user_id')
@@ -29,7 +30,6 @@ class Prospect(models.Model):
                  'is_team_leader' will be used to determine weather 'user_id' is going to be readonly or not.
                  """
         for rec in self:
-            print('ff')
             team = self.env['crm.team'].search([('user_id', '=', self.env.user.id)], limit=1)
             if team:
                 rec.is_team_leader = True
@@ -41,6 +41,13 @@ class Prospect(models.Model):
 
     @api.depends('user_id')
     def compute_user_id_domain(self):
+        """
+            Compute method to determine the domain for the user_id field.
+            This method depends on the 'user_id' field. It searches for a CRM team
+            where the current user is the leader. If a team is found, it sets the
+           'user_id_domain' field to a domain that includes the IDs of the team members.
+           If no team is found, the 'user_id_domain' remains untouched .
+                            """
         for prospect in self:
             team = self.env['crm.team'].search([('user_id', '=', self.env.user.id)], limit=1)
             if team :
@@ -49,3 +56,30 @@ class Prospect(models.Model):
             else:
                 prospect.user_id_domain = []
 
+
+    def action_offer_sent(self):
+        """
+            This method is triggered when the 'Offer Sent' button is clicked.
+            It updates the status of the prospect to 'offer_sent'.
+            """
+        for rec in self:
+            if rec.status == 'won':
+                raise UserError("This prospect has been marked as Won.")
+            if rec.status == 'lost':
+                raise UserError("This prospect has been marked as Lost.")
+            rec.status = 'offer_sent'
+
+
+
+    def action_won(self):
+        for prospect in self:
+            if prospect.status == 'lost':
+                raise UserError("This prospect has been marked as Lost.")
+            prospect.status = 'won'
+
+
+    def action_lost(self):
+        for prospect in self:
+            if prospect.status == 'won':
+                raise UserError("This prospect has been marked as Won.")
+            prospect.status= 'lost'

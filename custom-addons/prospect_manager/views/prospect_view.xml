@@ -32,6 +32,9 @@
             <form>
                <sheet>
                    <header>
+                       <button class = 'btn-primary' type="object" name="action_offer_sent">Offer sent</button>
+                       <button class = 'btn-primary' type="object" name="action_won">Won</button>
+                       <button class = 'btn-primary' type="object" name="action_lost">Lost</button>
                        <field name = 'status' widget="statusbar"  statusbar_visible="contact_prospect,offer_sent,won,lost" />
                    </header>
                    <group string = 'Primary info'>
@@ -47,14 +50,12 @@
 
                    </group>
                    <notebook>
-                       <page string = 'User and Customer'>
+                       <page string = 'Prospect Owner'>
                            <group>
                                <field name="user_id" widget = 'many2one_avatar' options="{'no_create': True}" readonly = "is_team_leader == False"
                                     domain = 'user_id_domain'
                                />
 
-
-                               <field name="customer_id" widget = 'many2one_avatar' options="{'no_create': True}" />
                            </group>
                        </page>
                    </notebook>
