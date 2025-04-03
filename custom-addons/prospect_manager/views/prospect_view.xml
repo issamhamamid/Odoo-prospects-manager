@@ -15,12 +15,12 @@
         <field name="name">prospect.tree</field>
         <field name="model">prospect</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-danger="status == 'lost'" decoration-success="status == 'won'">
                 <field name="name"/>
                 <field name="user_id" widget = 'many2one_avatar'/>
                 <field name="lead_score" widget="priority"/>
                 <field name="phone"/>
-                <field name="status" widget = 'badge'/>
+                <field name="status" widget = 'badge' decoration-danger="status == 'lost'" decoration-success="status == 'won'" decoration-info="status == 'offer_sent'" decoration-primary="status == 'contact_prospect'"/>
             </list>
         </field>
     </record>
