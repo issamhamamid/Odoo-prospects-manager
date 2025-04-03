@@ -1,3 +1,4 @@
+from odoo.api import readonly
 
 from odoo import fields, models, api
 from odoo.exceptions import UserError
@@ -18,7 +19,7 @@ class Prospect(models.Model):
     offer_sent_date = fields.Date(string='Offer Sent Date', readonly=True)
     offer_won_date = fields.Date(string='Offer Won Date', readonly=True)
     offer_lost_date = fields.Date(string='Offer Lost Date', readonly=True)
-
+    client_id = fields.Many2one('res.partner', string='Converted client', readonly=True)
 
     @api.depends('user_id')
     def _check_team_leader(self):
@@ -29,12 +30,12 @@ class Prospect(models.Model):
                  If found, computational field 'is_team_leader' is set to True; otherwise, it's set to False
                  'is_team_leader' will be used to determine weather 'user_id' is going to be readonly or not.
                  """
-        for rec in self:
+        for prospect in self:
             team = self.env['crm.team'].search([('user_id', '=', self.env.user.id)], limit=1)
             if team:
-                rec.is_team_leader = True
+                prospect.is_team_leader = True
             else:
-                rec.is_team_leader = False
+                prospect.is_team_leader = False
 
 
 
@@ -62,24 +63,36 @@ class Prospect(models.Model):
             This method is triggered when the 'Offer Sent' button is clicked.
             It updates the status of the prospect to 'offer_sent'.
             """
-        for rec in self:
-            if rec.status == 'won':
+        for prospect in self:
+            if prospect.status == 'won':
                 raise UserError("This prospect has been marked as Won.")
-            if rec.status == 'lost':
+            if prospect.status == 'lost':
                 raise UserError("This prospect has been marked as Lost.")
-            rec.status = 'offer_sent'
+            prospect.offer_sent_date = fields.Date.today()
+            prospect.status = 'offer_sent'
 
 
 
     def action_won(self):
         for prospect in self:
+            if prospect.status == 'won':
+                raise UserError("This prospect has already been marked as Won.")
             if prospect.status == 'lost':
                 raise UserError("This prospect has been marked as Lost.")
             prospect.status = 'won'
+            prospect.offer_won_date = fields.Date.today()
+            partner = self.env['res.partner'].create([{
+                'name': prospect.name,
+            }])
+            prospect.client_id = partner.id
+
 
 
     def action_lost(self):
         for prospect in self:
             if prospect.status == 'won':
-                raise UserError("This prospect has been marked as Won.")
+                raise UserError("This prospect been marked as Won.")
+            if prospect.status == 'lost':
+                raise UserError("This prospect has already been marked as Lost.")
             prospect.status= 'lost'
+            prospect.offer_lost_date = fields.Date.today()
