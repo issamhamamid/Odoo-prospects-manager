@@ -13,13 +13,14 @@ class Prospect(models.Model):
                               , default = 'contact_prospect' , readonly = True)
     lead_score = fields.Selection([(str(i), str(i)) for i in range(1, 6)], string='Probability of conversion', required=True)
     description = fields.Text(string='Description' , size = 30)
-    phone = fields.Char(string='Phone' , size = 10)
+    phone = fields.Char(string='Phone' , size = 10 , required= True)
     is_team_leader = fields.Boolean(string='Is Team Leader', compute='_check_team_leader')
     user_id_domain = fields.Binary(string='User ID Domain', compute='compute_user_id_domain')
     offer_sent_date = fields.Date(string='Offer Sent Date', readonly=True)
     offer_won_date = fields.Date(string='Offer Won Date', readonly=True)
     offer_lost_date = fields.Date(string='Offer Lost Date', readonly=True)
     client_id = fields.Many2one('res.partner', string='Converted client', readonly=True)
+    email = fields.Char(string='Email', size=50, required=True)
 
     @api.depends('user_id')
     def _check_team_leader(self):
@@ -83,6 +84,9 @@ class Prospect(models.Model):
             prospect.offer_won_date = fields.Date.today()
             partner = self.env['res.partner'].create([{
                 'name': prospect.name,
+                'email': prospect.email,
+                'prospect_id': prospect.id,
+                'phone': prospect.phone,
             }])
             prospect.client_id = partner.id
 

@@ -19,7 +19,7 @@
                 <field name="name"/>
                 <field name="user_id" widget = 'many2one_avatar'/>
                 <field name="lead_score" widget="priority"/>
-                <field name="phone"/>
+                <field name="phone" widget="phone"/>
                 <field name="status" widget = 'badge' decoration-danger="status == 'lost'" decoration-success="status == 'won'" decoration-info="status == 'offer_sent'" decoration-primary="status == 'contact_prospect'"/>
             </list>
         </field>
@@ -34,9 +34,9 @@
                    <widget name="web_ribbon" title="Won" bg_color="text-bg-success" invisible="status != 'won'"/>
                    <widget name="web_ribbon" title="Lost" bg_color="text-bg-danger" invisible="status != 'lost'"/>
                    <header>
-                       <button class = 'btn-primary' type="object" name="action_offer_sent">Offer sent</button>
-                       <button class = 'btn-primary' type="object" name="action_won">Won</button>
-                       <button class = 'btn-primary' type="object" name="action_lost">Lost</button>
+                       <button class = 'btn-primary' type="object" name="action_offer_sent" confirm="This action will mark this prospect as offer sent and cannot be reverted">Offer sent</button>
+                       <button class = 'btn-primary' type="object" name="action_won" confirm="This action will mark this prospect as a won client and cannot be reverted">Won</button>
+                       <button class = 'btn-primary' type="object" name="action_lost" confirm="This action will mark this prospect as lost and cannot be reverted">Lost</button>
                        <field name = 'status' widget="statusbar"  statusbar_visible="contact_prospect,offer_sent,won,lost" invisible="status == 'lost' or status=='won'" />
                    </header>
                    <group string = 'Primary info'>

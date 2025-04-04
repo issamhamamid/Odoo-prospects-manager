@@ -24,6 +24,7 @@
         'views/team_view.xml',
         'views/prospect_view.xml',
         'views/base_menus.xml',
+        'report/client_report.xml'
 
     ],
     # only loaded in demonstration mode
