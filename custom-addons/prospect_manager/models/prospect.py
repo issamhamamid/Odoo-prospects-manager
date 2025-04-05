@@ -22,6 +22,19 @@ class Prospect(models.Model):
     client_id = fields.Many2one('res.partner', string='Converted client', readonly=True)
     email = fields.Char(string='Email', size=50, required=True)
 
+
+
+    @api.constrains('user_id')
+    def _check_if_member(self):
+        """
+            This method checks if the user_id is a member of the CRM team.
+            If not, it raises a UserError.
+            """
+        for prospect in self:
+            team = self.env['crm.team'].search([('user_id', '=', self.env.user.id)], limit=1) or self.env['crm.team'].search([('member_ids', 'in', [self.env.user.id])], limit=1)
+            if not team:
+                raise UserError("You are not a member of any Commerical team.")
+
     @api.depends('user_id')
     def _check_team_leader(self):
 

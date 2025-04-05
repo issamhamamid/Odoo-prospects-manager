@@ -57,7 +57,7 @@ This repository contains the implementation of a technical test using odoo 18  .
 - Head to the Prospect Manager  module menu in the Odoo interface.
 - You can see 4 sub menus in there :
   - Regions
-  - Teams
+  - Commercial Teams
   - Prospects
   - Clients
 - PDF report generation is available in the client form view.
