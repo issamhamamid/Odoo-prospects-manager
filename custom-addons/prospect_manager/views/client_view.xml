@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record id="action_partner_clients_only" model="ir.actions.act_window">
+            <field name="name">Clients Only</field>
+            <field name="res_model">res.partner</field>
+            <field name="domain">[('user_ids', '=', False)]</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="view_id" ref="base.view_partner_tree"/>
+        </record>
+    </data>
+</odoo>

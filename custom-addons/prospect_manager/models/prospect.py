@@ -33,7 +33,7 @@ class Prospect(models.Model):
         for prospect in self:
             team = self.env['crm.team'].search([('user_id', '=', self.env.user.id)], limit=1) or self.env['crm.team'].search([('member_ids', 'in', [self.env.user.id])], limit=1)
             if not team:
-                raise UserError("You are not a member of any Commerical team.")
+                raise UserError("You are not a member of any Commercial team.")
 
     @api.depends('user_id')
     def _check_team_leader(self):

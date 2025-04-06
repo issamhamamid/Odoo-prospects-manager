@@ -23,8 +23,10 @@
         'views/region_view.xml',
         'views/team_view.xml',
         'views/prospect_view.xml',
+        'views/client_view.xml',
         'views/base_menus.xml',
-        'report/client_report.xml'
+        'report/client_report.xml',
+
 
     ],
     # only loaded in demonstration mode

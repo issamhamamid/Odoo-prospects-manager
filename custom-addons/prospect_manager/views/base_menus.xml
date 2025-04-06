@@ -30,7 +30,7 @@
         id='clients_menu'
         name='Clients'
         parent='prospect_manager_root_menu'
-        action = 'base.action_partner_form'
+        action = 'action_partner_clients_only'
     />
 
 

@@ -49,6 +49,7 @@
                        <field name="status"/>
                        <field name="lead_score" widget = 'priority'/>
                        <field name="phone" widget = "phone"/>
+                       <field name="email" widget = "email"/>
 
                    </group>
                    <notebook>
